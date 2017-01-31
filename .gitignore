@@ -1,0 +1,15 @@
+/.env/
+/.vscode/
+/app/__pycache__/
+/app/.cache/
+/app/*.pyc
+/storage/database/*.db
+/test/.cache/
+/storage/database/*.db
+
+/test/.cache/
+/app/__pycache__/
+/test/__pycache__/
+/test/file/*.txt
+/.coverage
+/**/.pyc
