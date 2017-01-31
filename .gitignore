@@ -4,12 +4,14 @@
 /app/.cache/
 /app/*.pyc
 /storage/database/*.db
-/test/.cache/
+/tests/.cache/
 /storage/database/*.db
 
-/test/.cache/
+/tests/.cache/
 /app/__pycache__/
-/test/__pycache__/
+/tests/__pycache__/
 /test/file/*.txt
 /.coverage
-/**/.pyc
+/**/*.pyc
+/**/.DS_Store
+/**/.cache
