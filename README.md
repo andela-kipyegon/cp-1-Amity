@@ -4,12 +4,14 @@
 Amity Space Allocater is console application that allocates spaces to fellows and staff within Andela
 
 #Installation
-<<<<<<< HEAD
 Download the application
 ```
 $ git clone  https://github.com/lederp23/amity.git
 $ cd amity
 ```
+```$ virtualenv -p /usr/bin/python3 .env```
+```cd amity/```
+```$ source .env/bin/activate```
 
 
 Create and Start Virtual environment
