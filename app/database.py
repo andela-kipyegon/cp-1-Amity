@@ -8,7 +8,7 @@ from app.models import PersonTbl, RoomTbl, BASE
 def save_database(database):
     """fxn that creates database"""
 
-    engine = create_engine('sqlite:///' + database, echo=False)
+    engine = create_engine('sqlite:///storage/database/' + database, echo=False)
     Session = sessionmaker()
     Session.configure(bind=engine)
     session = Session()
@@ -19,7 +19,7 @@ def save_database(database):
 def load_database(database):
     """fxn for loading database"""
 
-    engine = create_engine('sqlite:///' + database, echo=False)
+    engine = create_engine('sqlite:///storage/database/' + database, echo=False)
     Session = sessionmaker()
     Session.configure(bind=engine)
     session = Session()

@@ -24,7 +24,7 @@ from docopt import docopt, DocoptExit
 from termcolor import cprint, colored
 from pyfiglet import Figlet
 AMITY = Amity()
-AMITY.load_state("dojo")
+AMITY.load_state("oliver")
 
 def docopt_cmd(func):
     """
@@ -39,7 +39,6 @@ def docopt_cmd(func):
             # We print a message to the user and the usage block.
             print('\n')
             print('Invalid Command! Use the below syntax:')
-            print(str(e))
             print('\n')
             return
 
@@ -85,13 +84,16 @@ class ScreenOut(cmd.Cmd):
         last_name = args['<last_name>']
         name = first_name + "_" + last_name
         role = args['<role>']
-        
+
         # checks accomodation status
-        if args['y']:
+        if args['y'] and args['<role>'].lower() == "fellow":
             accomodation = "Y"
+            cprint(AMITY.add_person(name, role, accomodation), "green", attrs=['bold'])
+        elif args['y']:
+            cprint("✘ staff cannot be allocated accomodations", "red", attrs=["bold"])
         else:
             accomodation = "N"
-        cprint(AMITY.add_person(name, role, accomodation), "green", attrs=['bold'])
+            cprint(AMITY.add_person(name, role, accomodation), "green", attrs=['bold'])
 
     # This cmd allows the user to parse arguments for calling create_room function
     @docopt_cmd
@@ -189,15 +191,15 @@ class ScreenOut(cmd.Cmd):
         """Usage: print_room <room_name>"""
 
         cprint(AMITY.print_room(args['<room_name>']), "magenta", attrs=["bold"])
-    
+
     # This cmd allows the user to quit from the application
     def do_reset(self, arg):
         """Quits out of Interactive Mode."""
 
         AMITY.all_people = []
         AMITY.all_rooms = []
-        AMITY.print_unallocated_office = []
-        AMITY.print_unallocated_office = []
+        AMITY.unallocated_office = []
+        AMITY.unallocated_living_space = []
         cprint("✔ Amity has been wiped clean" , "green", attrs=["bold"])
 
     # This cmd allows the user to quit from the application
@@ -213,10 +215,10 @@ class ScreenOut(cmd.Cmd):
 if __name__ == '__main__':
 
     try:
-        delay_print(__doc__)
+        print(__doc__)
         ScreenOut().cmdloop()
     except KeyboardInterrupt:
         os.system('clear')
         font = Figlet(font='roman')
         delay_print('\n\n' + \
-                    colored(font.renderText('Goodbye...'), 'yellow', attrs=['bold']))
+        colored(font.renderText('Goodbye...'), 'yellow', attrs=['bold']))
