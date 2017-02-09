@@ -26,7 +26,7 @@ class Amity(object):
          """
 
         # checks if the room name is null
-        if not rm_name:
+        if not rm_name or any(char.isdigit() for char in rm_name):
             msg = colored("Enter Valid Room Name", "red")
             return msg
 
@@ -100,7 +100,7 @@ class Amity(object):
         """
 
         # checks if name is null
-        if not name:
+        if not name or any(char.isdigit() for char in name):
             msg = colored("✘ Enter a valid name", "red", attrs=["bold"])
             return msg
 
@@ -150,7 +150,7 @@ class Amity(object):
                     office_with_spaces.append(space.room_name)
             return office_with_spaces
 
-        else:
+        elif accomodation == "living_space":
             living_with_spaces = []
 
             for space in self.all_rooms:
@@ -312,14 +312,14 @@ class Amity(object):
                             job_type = person[2]
                             accomodation = person[3]
                             msg = self.add_person(name, job_type, accomodation)
-                            if msg != colored("✘ Person already exists", "red"):
+                            if msg != colored("✘ Person already exists", "red", attrs=["bold"]):
                                 count += 1
                         elif len(person) == 3 and person[2].lower() in ["staff", "fellow"]:
                             accomodation = 'Y'
                             name = person[0] + "_" + person[1]
                             job_type = person[2]
-                            self.add_person(name, job_type, accomodation)
-                            if msg != colored("✘ Person already exists", "red"):
+                            msg = self.add_person(name, job_type, accomodation)
+                            if msg != colored("✘ Person already exists", "red", attrs=["bold"]):
                                 count += 1
                         else:
                             msg = "✘ File has Wrong Format"
@@ -339,36 +339,37 @@ class Amity(object):
         params filename: optional if one wants to save allocations to txt file
 
         """
+        if len(self.all_rooms) != 0:
+            allocations = []
 
-        allocations = []
+            # get list from all people
+            for room in self.all_rooms:
+                occupants = []
+                allocations.append({room.room_name:occupants})
+                for person in self.all_people:
+                    if person.office == room.room_name:
+                        occupants.append(person.name)
+                    if person.living_space == room.room_name:
+                        occupants.append(person.name)
+                    allocations[-1][room.room_name] = occupants
 
-        # get list from all people
-        for room in self.all_rooms:
-            occupants = []
-            allocations.append({room.room_name:occupants})
-            for person in self.all_people:
-                if person.office == room.room_name:
-                    occupants.append(person.name)
-                if person.living_space == room.room_name:
-                    occupants.append(person.name)
-                allocations[-1][room.room_name] = occupants
+            # output
+            output = "ROOM ALLOCATIONS"
+            # printing or display on screen
+            for room in allocations:
+                output += "\n\n" + ("_" * 90)
+                for name, people in room.items():
+                    output += "\n" + name.upper() + "\n" + ("_" * 90) + "\n\n"
+                    for person in people:
+                        person = person.upper()
+                        name = person.split('_')
+                        if people.index(person.lower()) != len(people)-1:
+                            output += name[0] + " " + name[1] + ","
+                        else:
+                            output += name[0] + " " + name[1]
 
-        # output
-        output = "ROOM ALLOCATIONS"
-        # printing or display on screen
-        for room in allocations:
-            output += "\n\n" + ("_" * 90)
-            for name, people in room.items():
-                output += "\n" + name.upper() + "\n" + ("_" * 90) + "\n\n"
-                for person in people:
-                    person = person.upper()
-                    name = person.split('_')
-                    if index(person) != people.length-1:
-                        output += name[0] + " " + name[1] + ","
-                    else:
-                        output += name[0] + " " + name[1]
-                        
-        return self.output(output, filename)
+            return self.output(output, filename)
+        return self.output("NO ROOMS")
 
     def print_unallocated(self, filename=None):
         """fxn to print unallocated person
@@ -447,7 +448,7 @@ class Amity(object):
         # locate db file
         dbase = dbase + ".db"
 
-        if os.path.exists("/storage/database/" + dbase):
+        if os.path.exists("storage/database/" + dbase):
             try:
                 people = app.database.load_persons(dbase)
                 rooms = app.database.load_rooms(dbase)
@@ -494,13 +495,13 @@ class Amity(object):
                 msg = colored(msg, "green", attrs=["bold"])
                 return msg
 
-            except Exception as e:
-                msg = "✘ Error in loading contents"+str(e)
-                msg = colored(msg, "green", attrs=["bold"])
+            except:
+                msg = "✘ Error in loading contents"
+                msg = colored(msg, "red", attrs=["bold"])
                 return msg
         else:
             msg = "✘ Database not found"
-            msg = colored(msg, "green", attrs=["bold"])
+            msg = colored(msg, "red", attrs=["bold"])
             return msg
 
     def save_state(self, dbase="dojo"):
