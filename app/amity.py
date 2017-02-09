@@ -19,11 +19,14 @@ class Amity(object):
         self.file_input = '~/Desktop/Amity/storage/file/people.txt'
 
     def create_room(self, rm_name, rm_type):
-        """creates the room
+        """creates the room which may be instance of office or living soace
+        params rm_name - name of the room
+        params rm_type - type of the Room
+
          """
 
         # checks if the room name is null
-        if rm_name == "":
+        if not rm_name:
             msg = colored("Enter Valid Room Name", "red")
             return msg
 
@@ -56,7 +59,12 @@ class Amity(object):
                 return "Living space added successfully"
 
     def auto_allocate(self, rm_type, rm_name):
-        """fxn to autolocate people"""
+        """fxn to autolocate people if room is created and unallocated people existed
+
+        params rm_name: name of the room created
+        params rm-type: type of the room created
+
+        """
 
         # checks room_type and calls allocate fxn
         if rm_type == "office" and len(self.unallocated_office) > 0:
@@ -83,10 +91,16 @@ class Amity(object):
                     room.occupants = occupants
 
     def add_person(self, name, job_type, accomodation="N"):
-        """fxn to add person"""
+        """fxn to add person to amity program
+
+        param name: Takes the name of the person
+        param job_type: Takes the job_type of the person
+        param accomodation: cheks whether wants accomodation
+
+        """
 
         # checks if name is null
-        if " " in name:
+        if not name:
             msg = colored("✘ Enter a valid name", "red", attrs=["bold"])
             return msg
 
@@ -117,11 +131,14 @@ class Amity(object):
                 msg = "✔ "
                 return msg + self.allocate(name, job_type)
 
-    def search_room(self, accomodation=None):
-        """fxn to search room"""
+    def search_room_availability(self, accomodation):
+        """fxn to search room
+
+        param accomodation: takes accomodation either office or living_space
+        """
 
         # checks room availabilty
-        if accomodation is None:
+        if accomodation == "office":
             office_with_spaces = []
 
             for space in self.all_rooms:
@@ -146,14 +163,22 @@ class Amity(object):
             return living_with_spaces
 
     def allocate(self, name, job_type, accomodation="N"):
-        """fxn to allocate new person automatically called by add_person fxn"""
+        """fxn to allocate new person automatically called by add_person fxn
+
+        param name: name of the person to be allocated a room
+        param job_type: occupation of the person to be allocated
+        param accomodation: checks on wants accoomodation
+
+        returns relevant msg depending if fellow or staff
+
+        """
 
         # allocation fellow and staff
         if job_type.lower() == "staff" or (job_type.lower() == "fellow" and accomodation == "N"):
 
         # allocate staff to office
             try:
-                selected_office = random.choice(self.search_room())
+                selected_office = random.choice(self.search_room_availability("office"))
                 for office in self.all_rooms:
                     if office.room_name == selected_office:
                         office.occupants += 1
@@ -167,13 +192,14 @@ class Amity(object):
         else:
 
             try:
-                selected_office = random.choice(self.search_room())
+                selected_office = random.choice(self.search_room_availability("office"))
                 for office in self.all_rooms:
                     if office.room_name == selected_office:
                         office.occupants += 1
 
                 try:
-                    selected_living_space = random.choice(self.search_room("accomodation"))
+                    selected_living_space = random.choice(
+                        self.search_room_availability("living_space"))
                     for living_space in self.all_rooms:
                         if living_space.room_name == selected_living_space:
                             living_space.occupants += 1
@@ -187,7 +213,8 @@ class Amity(object):
 
             except IndexError:
                 try:
-                    selected_living_space = random.choice(self.search_room("accomodation"))
+                    selected_living_space = random.choice(\
+                        self.search_room_availability("living_space"))
                     for living_space in self.all_rooms:
                         if living_space.room_name == selected_living_space:
                             living_space.occupants += 1
@@ -200,7 +227,14 @@ class Amity(object):
                     return "fellow created Successfully and no Living_space and Office available "
 
     def reallocate(self, name, rm_name):
-        """fxn to reallocate person"""
+        """fxn to reallocate person" to another Room
+
+        param name: name of the person to be reallocated
+        param rm_name: name of the room the person should be reallocated to
+
+        returns success or error
+
+        """
 
         for person in self.all_people:
 
@@ -252,7 +286,7 @@ class Amity(object):
 
 
     def load_people(self):
-        """fxn to load people from people.txt"""
+        """fxn to load people from people.txt in storage file"""
 
         # open people.txt
         try:
@@ -297,7 +331,11 @@ class Amity(object):
             return msg
 
     def print_allocations(self, filename=None):
-        """fxn that prints unallocated"""
+        """fxn that prints unallocated
+
+        params filename: optional if one wants to save allocations to txt file
+
+        """
 
         allocations = []
 
@@ -327,7 +365,10 @@ class Amity(object):
         return self.output(output, filename)
 
     def print_unallocated(self, filename=None):
-        """fxn to print unallocated person"""
+        """fxn to print unallocated person
+        
+         params filename: optional if one wants to save unallocated to txt file
+        """
 
         output = ""
         # unallocated office
@@ -347,7 +388,12 @@ class Amity(object):
         return self.output(output, filename)
 
     def output(self, output, filename=None):
-        """fxn for display or print to screen"""
+        """fxn for display or print to screen
+         
+         param ouput: has the contented to be displayed or printed
+         params filename: optional if one wants to save contents to txt file 
+
+        """
 
         # print or display
         if filename:
@@ -360,7 +406,11 @@ class Amity(object):
             return output
 
     def print_room(self, rm_name):
-        """fxn to print room members"""
+        """fxn to print room members
+
+        param rm_name: takes which room is to be printed
+        
+        """
 
         output = ""
         # checks all people
@@ -381,7 +431,12 @@ class Amity(object):
         return msg
 
     def load_state(self, dbase):
-        """fxn to load state"""
+        """fxn to load state
+        
+        params dbase: takes the name of the database to be loaded
+
+        returns success msg or error msgs
+        """
 
         # locate db file
         dbase = dbase + ".db"
@@ -394,6 +449,8 @@ class Amity(object):
                 # clear data structures
                 self.all_people = []
                 self.all_rooms = []
+                self.unallocated_office = []
+                self.unallocated_living_space = []
 
                 # populate all people
                 for person in people:
@@ -411,14 +468,14 @@ class Amity(object):
                         self.all_people.append(fellow)
                     
                     # populate unallocated    
-                    if person.office is None:
+                    if person.allocated_office is None:
                         self.unallocated_office.append(person.name)
-                    if person.living_space is None and person.accomodation == "Y":
+                    if person.allocated_living_space is None and person.is_accomodated == "Y":
                         self.unallocated_living_space.append(person.name)    
 
                 # populate all rooms
                 for room in rooms:
-                    if room.room_type.lower() == "office":
+                    if room.room_type == "office":
                         office = Office(room.room_name)
                         office.occupants = room.no_of_occupants
                         self.all_rooms.append(office)
@@ -426,14 +483,13 @@ class Amity(object):
                         living_space = LivingSpace(room.room_name)
                         living_space.occupants = room.no_of_occupants
                         self.all_rooms.append(living_space)
-                    
-                
+               
                 msg = "✔ Loaded Successfully"
                 msg = colored(msg, "green", attrs=["bold"])
                 return msg
 
-            except:
-                msg = "✘ Error in loading contents"
+            except Exception as e:
+                msg = "✘ Error in loading contents"+str(e)
                 msg = colored(msg, "green", attrs=["bold"])
                 return msg
         else:
@@ -442,7 +498,12 @@ class Amity(object):
             return msg
 
     def save_state(self, dbase="dojo"):
-        """fxn to save state"""
+        """fxn to save state
+        
+        params dbase: database name of the db to be stored
+
+        return success or error msg
+        """
 
         dbase = dbase + ".db"
         dbase = os.path.expanduser("~/Desktop/Amity/storage/database/" + dbase)

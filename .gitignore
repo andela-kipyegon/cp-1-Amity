@@ -10,6 +10,7 @@
 /tests/.cache/
 /app/__pycache__/
 /tests/__pycache__/
+/htmlcov/
 /test/file/*.txt
 /.coverage
 /**/*.pyc
