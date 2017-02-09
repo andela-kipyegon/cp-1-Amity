@@ -6,7 +6,7 @@ Amity Space Allocater is console application that allocates spaces to fellows an
 #Installation
 Download the application
 ```
-$ git clone  https://github.com/lederp23/amity.git
+$ git clone  https://github.com/andela-kipyegon/amity.git
 $ cd amity
 ```
 
@@ -18,8 +18,6 @@ $ gicd amity/
 $ source .env/bin/activate
 ```
 
-<<<<<<< HEAD
-
 Create and Start Virtual environment
 ```
 $ virtualenv -p /usr/bin/python3 .env
@@ -27,8 +25,6 @@ $ gicd amity/
 $ source .env/bin/activate
 ```
 
-=======
->>>>>>> Changes README.md
 Install dependencies 
 ```$ pip install -r requirements.txt```
 
@@ -55,4 +51,4 @@ Save_state `[--db=database]` - Saves all changes to the default databases or the
 Load_state `<database_name>` - loads contents of the specified database
 
 #Credits
-[Kenneth Kipyegon](https://github.com/kenneth254/)
+[Kenneth Kipyegon](https://github.com/andela-kipyegon/)
