@@ -16,7 +16,7 @@ class Amity(object):
         self.all_rooms = []
         self.unallocated_office = []
         self.unallocated_living_space = []
-        self.file_input = '~/Desktop/Amity/storage/file/people.txt'
+        self.file_input = 'storage/file/people.txt'
 
     def create_room(self, rm_name, rm_type):
         """creates the room which may be instance of office or living soace
@@ -443,8 +443,8 @@ class Amity(object):
 
         # locate db file
         dbase = dbase + ".db"
-        dbase = os.path.expanduser("~/Desktop/Amity/storage/database/" + dbase)
-        if os.path.exists(dbase):
+
+        if os.path.exists("/storage/database/" + dbase):
             try:
                 people = app.database.load_persons(dbase)
                 rooms = app.database.load_rooms(dbase)
@@ -509,11 +509,10 @@ class Amity(object):
         """
 
         dbase = dbase + ".db"
-        dbase = os.path.expanduser("~/Desktop/Amity/storage/database/" + dbase)
 
         # delete if path exist
-        if os.path.exists(dbase):
-            os.remove(dbase)
+        if os.path.exists("storage/database/"+dbase):
+            os.remove("storage/database/"+dbase)
 
         try:
             # commit rooms
