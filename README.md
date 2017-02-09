@@ -14,14 +14,7 @@ $ cd amity
 Create and Start Virtual environment
 ```
 $ virtualenv -p /usr/bin/python3 .env
-$ gicd amity/
-$ source .env/bin/activate
-```
-
-Create and Start Virtual environment
-```
-$ virtualenv -p /usr/bin/python3 .env
-$ gicd amity/
+$ cd amity/
 $ source .env/bin/activate
 ```
 
