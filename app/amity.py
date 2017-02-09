@@ -363,8 +363,11 @@ class Amity(object):
                 for person in people:
                     person = person.upper()
                     name = person.split('_')
-                    output += name[0] + " " + name[1] + ","
-
+                    if index(person) != people.length-1:
+                        output += name[0] + " " + name[1] + ","
+                    else:
+                        output += name[0] + " " + name[1]
+                        
         return self.output(output, filename)
 
     def print_unallocated(self, filename=None):
