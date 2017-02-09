@@ -14,7 +14,7 @@ $ cd amity
 Create and Start Virtual environment
 ```
 $ virtualenv -p /usr/bin/python3 .env
-cd amity/
+$ cd amity/
 $ source .env/bin/activate
 ```
 
@@ -53,5 +53,6 @@ print_room `<room_name>` - Prints all members in a particular room
 Save_state `[--db=database]` - Saves all changes to the default databases or the specified database 
 
 Load_state `<database_name>` - loads contents of the specified database
+
 #Credits
 [Kenneth Kipyegon](https://github.com/kenneth254/)
