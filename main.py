@@ -129,7 +129,7 @@ class ScreenOut(cmd.Cmd):
         first_name = args['<first_name>']
         last_name = args['<last_name>']
         name = first_name + "_" + last_name
-        print(AMITY.reallocate(name, args['<new_room_name>']))
+        print(AMITY.reallocate(name, args['<new_room_name>'].lower()))
 
     # This cmd allows the user to call the save_state function
     @docopt_cmd

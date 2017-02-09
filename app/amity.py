@@ -273,7 +273,7 @@ class Amity(object):
                             for room in self.all_rooms:
                                 if old_room == room.room_name:
                                     room.occupants -= 1
-                            msg = "✔ Person has been reallocated"
+                            msg = "✔ Person has been reallocated to " + rm_name.lower()
                             msg = colored(msg, "green", attrs=["bold"])
                             return msg
                 
@@ -286,7 +286,10 @@ class Amity(object):
 
 
     def load_people(self):
-        """fxn to load people from people.txt in storage file"""
+        """fxn to load people from people.txt in storage file
+        
+        returns success or error msg
+        """
 
         # open people.txt
         try:

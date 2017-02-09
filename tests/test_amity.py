@@ -117,8 +117,8 @@ class TestReallocation(unittest.TestCase):
         self.assertEqual(already_allocated, colored("✘ Person is already in room ", "red", attrs=["bold"]))
 
         # reallocate succesfully
-        allocate = self.amity.reallocate("gideon", "shire")
-        self.assertEqual(allocate, colored("✔ Person has been reallocated", "green", attrs=["bold"]))
+        allocate = self.amity.reallocate("gideon", "Shire")
+        self.assertEqual(allocate, colored("✔ Person has been reallocated to shire", "green", attrs=["bold"]))
 
 class TestAllocation(unittest.TestCase):
     """class for testing fxn allocation"""
