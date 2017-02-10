@@ -19,11 +19,12 @@ class Amity(object):
         self.file_input = 'storage/file/people.txt'
 
     def create_room(self, rm_name, rm_type):
-        """creates the room which may be instance of office or living soace
+        """creates the room which may be instance of office or living space
         params rm_name - name of the room
         params rm_type - type of the Room
 
-         """
+        returns success or true msg
+        """
 
         # checks if the room name is null
         if not rm_name or any(char.isdigit() for char in rm_name):
@@ -70,7 +71,7 @@ class Amity(object):
         if rm_type == "office" and len(self.unallocated_office) > 0:
             occupants = 0
             for person in self.all_people:
-                if person.name in self.unallocated_office and occupants < 7:
+                if person.name in self.unallocated_office and occupants < 6:
                     self.unallocated_office.remove(person.name)
                     person.office = rm_name.lower()
                     occupants += 1
@@ -82,7 +83,7 @@ class Amity(object):
         elif len(self.unallocated_living_space) > 0 and len(self.unallocated_living_space):
             occupants = 0
             for person in self.all_people:
-                if person.name in self.unallocated_living_space and occupants < 5:
+                if person.name in self.unallocated_living_space and occupants < 4:
                     self.unallocated_living_space.remove(person.name)
                     person.living_space = rm_name.lower()
                     occupants += 1
@@ -97,6 +98,7 @@ class Amity(object):
         param job_type: Takes the job_type of the person
         param accomodation: cheks whether wants accomodation
 
+        returns success or error msg
         """
 
         # checks if name is null
@@ -135,6 +137,8 @@ class Amity(object):
         """fxn to search room
 
         param accomodation: takes accomodation either office or living_space
+
+        returns a list of available spaces
         """
 
         # checks room availabilty
@@ -232,7 +236,7 @@ class Amity(object):
         param name: name of the person to be reallocated
         param rm_name: name of the room the person should be reallocated to
 
-        returns success or error
+        returns success or error message
 
         """
 
@@ -248,7 +252,11 @@ class Amity(object):
                         room_index = self.all_rooms.index(room)
                         old_room = getattr(person, room_type)
 
-                        if room.occupants >= 6 and room.rm_type == "office":
+                        if  old_room == rm_name:
+                            msg = "✘ Person is already in room "
+                            msg = colored(msg, "red", attrs=["bold"])
+                            return ms
+                        elif room.occupants >= 6 and room.rm_type == "office":
                             msg = "✘ Office is already full"
                             msg = colored(msg, "red", attrs=["bold"])
                             return msg
@@ -256,10 +264,10 @@ class Amity(object):
                             msg ="✘ Living space is already full"
                             msg = colored(msg, "red", attrs=["bold"])
                             return msg
-                        elif  old_room == rm_name:
-                            msg = "✘ Person is already in room "
+                        elif person.job_type == "fellow" and person.accomodation == "N":
+                            msg ="✘ Fellow does not want living space"
                             msg = colored(msg, "red", attrs=["bold"])
-                            return msg 
+                            return msg     
                         elif person.job_type == "staff" and room_type == "living_space":
                             msg = " ✘ Cannot allocate staff living space"
                             msg = colored(msg, "red", attrs=["bold"])
@@ -269,6 +277,7 @@ class Amity(object):
                             #increase occupant in new rooms
                             self.all_rooms[room_index].occupants += 1
                             setattr(person, room_type, rm_name)
+
                             # reduce occupants in old room
                             for room in self.all_rooms:
                                 if old_room == room.room_name:
@@ -321,10 +330,10 @@ class Amity(object):
                             msg = self.add_person(name, job_type, accomodation)
                             if msg != colored("✘ Person already exists", "red", attrs=["bold"]):
                                 count += 1
-                        else:
-                            msg = "✘ File has Wrong Format"
+                        elif count != 0:
+                            msg = "line  {} hasFile has Wrong Format".format(count+1)
                             msg = colored(msg, "red", attrs=["bold"])
-                            return msg
+
                     msg = "✔ " + str(count) + " people added"
                     msg = colored(msg, "green", attrs=["bold"])        
                     return msg
@@ -504,7 +513,7 @@ class Amity(object):
             msg = colored(msg, "red", attrs=["bold"])
             return msg
 
-    def save_state(self, dbase="dojo"):
+    def save_state(self, dbase="amity"):
         """fxn to save state
         
         params dbase: database name of the db to be stored

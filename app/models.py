@@ -9,7 +9,7 @@ class PersonTbl(BASE):
     """Class for person"""
     __tablename__ = "person"
 
-    person_id = Column(Integer, primary_key=True, autoincrement=True)
+    person_id = Column(Integer, primary_key=True)
     name = Column(String(10), nullable=False)
     job_type = Column(String(10), nullable=False)
     is_accomodated = Column(String(3), default=False)
@@ -20,7 +20,7 @@ class RoomTbl(BASE):
     """class for room table"""
     __tablename__ = "rooms"
 
-    room_id = Column(Integer, primary_key=True, autoincrement=True)
+    room_id = Column(Integer, primary_key=True)
     room_name = Column(String(20), nullable=False)
     room_type = Column(String(10), nullable=False)
     no_of_occupants = Column(Integer)

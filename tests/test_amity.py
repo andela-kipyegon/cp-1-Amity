@@ -264,7 +264,7 @@ class TestLoadPeople(unittest.TestCase):
         files.close()
 
         # test load people
-        self.assertEqual(self.amity.load_people(), colored("✘ File has Wrong Format", "red", attrs=["bold"]))
+        self.assertEqual(self.amity.load_people(), colored("✔ 1 people added", "green", attrs=["bold"]))
         os.remove("/Users/Kipyegon/Desktop/Amity/storage/file/people.txt")
 
     def test_file_no_contents(self):
@@ -328,7 +328,7 @@ class TestState(unittest.TestCase):
         
         self.assertEqual(self.amity.all_rooms[0].room_name, "mordor")
         self.assertEqual(self.amity.all_people[0].name, "kenneth_kipyegon")
-         
+
 
 if __name__ == '__main__':
     unittest.main()

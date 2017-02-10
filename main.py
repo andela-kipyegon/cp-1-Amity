@@ -15,16 +15,18 @@ Options:
     -i, --interactive  Interactive Mode
     -h, --help  Show this screen and exit.
 """
-import time
 import sys
-import cmd
 import os
-from app.amity import Amity
+import time
+import cmd
 from docopt import docopt, DocoptExit
-from termcolor import cprint, colored
+from termcolor import colored, cprint
 from pyfiglet import Figlet
+from app.amity import Amity
+
 AMITY = Amity()
-AMITY.load_state("oliver")
+AMITY.load_state("amity")
+
 
 def docopt_cmd(func):
     """
@@ -72,7 +74,7 @@ class ScreenOut(cmd.Cmd):
     intro = colored('-- Version 1.0 --\t\t Enter "q" to quit', 'cyan', attrs=['bold'])
 
     # The prompt that shows the user that he or she is running form the application in the cmd
-    prompt = colored('\n(Amity>>', 'cyan', attrs=['bold'])
+    prompt = "Amity >>"
 
 
     #This cmd allows the user to parse arguments for calling the add_person function
@@ -89,7 +91,7 @@ class ScreenOut(cmd.Cmd):
         if args['y'] and args['<role>'].lower() == "fellow":
             accomodation = "Y"
             cprint(AMITY.add_person(name, role, accomodation), "green", attrs=['bold'])
-        elif args['y']:
+        elif args['y'] and args['<role>'] == "staff":
             cprint("✘ staff cannot be allocated accomodations", "red", attrs=["bold"])
         else:
             accomodation = "N"
@@ -104,16 +106,16 @@ class ScreenOut(cmd.Cmd):
         index = 0
         while index < len(args['<room_name>']):
             cprint("Enter the room type for " +
-                   str(args['<room_name>'][index]) + "\n 1. A for office\
-                    \n 2. B for living_space\n 3. q Exit ",
+                   str(args['<room_name>'][index]) + "\n 1. for office\
+                    \n 2. for living_space\n q. q Exit ",
                    "magenta", attrs=["bold"])
             room_type = input()
-            if room_type == "A":
+            if room_type == "1":
                 room_type = "office"
                 cprint(AMITY.create_room(args['<room_name>'][index], room_type),
                        "green", attrs=["bold"])
                 index += 1
-            elif room_type == "B":
+            elif room_type == "2":
                 room_type = "living_space"
                 cprint(AMITY.create_room(args['<room_name>'][index], room_type),
                        "green", attrs=["bold"])
