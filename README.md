@@ -6,7 +6,7 @@ Amity Space Allocater is console application that allocates spaces to fellows an
 #Installation
 Download the application
 ```
-$ git clone  https://github.com/andela-kipyegon/amity.git
+$ git clone  https://github.com/kenneth254/amity.git
 $ cd amity
 ```
 
@@ -44,4 +44,4 @@ Save_state `[--db=database]` - Saves all changes to the default databases or the
 Load_state `<database_name>` - loads contents of the specified database
 
 #Credits
-[Kenneth Kipyegon](https://github.com/andela-kipyegon/)
+[Kenneth Kipyegon](https://github.com/kenneth254/)
