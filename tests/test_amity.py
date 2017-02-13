@@ -284,6 +284,9 @@ class TestLoadPeople(unittest.TestCase):
         """test it has no contents"""
 
         # test empty contents
+        if os.path.exists("storage/file/people.txt"):
+            os.remove("storage/file/people.txt")
+
         self.assertEqual(self.amity.load_people(), colored("✘ Error in fetching file", "red", attrs=["bold"]))
 
 class TestPrintRoom(unittest.TestCase):

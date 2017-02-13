@@ -1,16 +1,14 @@
 """
 Welcome to Amity Rooms allocation System.
 Usage:
-    amity add_person <first_name> <last_name> <role> [--wants_accommodation=N]
-    amity create_room <room_name>...
-    amity reallocate_person <person_identifier> <room_name> <room_type>
+    amity add_person <first_name> <last_name> <role> [(y|n)]
+    amity reallocate_person <first_name> <last_name> <room_name>
     amity save_state [--db=sqlite_database]
     amity load_state <database>
     amity print_allocations [--o=filename]
     amity print_unallocated [--o=filename]
     amity load_people
     amity print_room <room_name>
-    reallocate_person <first_name> <last_name> <new_room_name>
 Options:
     -i, --interactive  Interactive Mode
     -h, --help  Show this screen and exit.
@@ -41,6 +39,7 @@ def docopt_cmd(func):
             # We print a message to the user and the usage block.
             print('\n')
             print('Invalid Command! Use the below syntax:')
+            print(e)
             print('\n')
             return
 
@@ -141,8 +140,7 @@ class ScreenOut(cmd.Cmd):
         """Usage: save_state [--db=sqlite_database]"""
 
         if args['--db'] is None:
-            db_name = 'dojo'
-            print(AMITY.save_state(db_name))
+            print(AMITY.save_state())
         else:
             db_name = args['--db']
             print(AMITY.save_state(db_name))
@@ -165,7 +163,7 @@ class ScreenOut(cmd.Cmd):
             cprint(AMITY.print_allocations(), "magenta", attrs=["bold"])
         else:
             filename = args['--o']
-            cprint(AMITY.print_allocations(filename), "magenta")
+            cprint(AMITY.print_allocations(filename), "green", attrs=["bold"])
 
     # This cmd allows the user to call the print_unallocated function
     @docopt_cmd
@@ -178,7 +176,7 @@ class ScreenOut(cmd.Cmd):
             cprint(AMITY.print_unallocated(), "magenta", attrs=["bold"])
         else:
             filename = args['--o']
-            cprint(AMITY.print_unallocated(filename), "cyan")
+            cprint(AMITY.print_unallocated(filename), "green", attrs=["bold"])
 
     # This cmd allows the user to call the load_people function
     @docopt_cmd

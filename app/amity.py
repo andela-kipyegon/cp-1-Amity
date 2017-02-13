@@ -255,14 +255,6 @@ class Amity(object):
                         if  old_room == rm_name:
                             msg = "✘ Person is already in room "
                             msg = colored(msg, "red", attrs=["bold"])
-                            return ms
-                        elif room.occupants >= 6 and room.rm_type == "office":
-                            msg = "✘ Office is already full"
-                            msg = colored(msg, "red", attrs=["bold"])
-                            return msg
-                        elif room.occupants >= 4 and room.rm_type == "living_space":
-                            msg ="✘ Living space is already full"
-                            msg = colored(msg, "red", attrs=["bold"])
                             return msg
                         elif person.job_type == "fellow" and person.accomodation == "N":
                             msg ="✘ Fellow does not want living space"
@@ -270,6 +262,14 @@ class Amity(object):
                             return msg     
                         elif person.job_type == "staff" and room_type == "living_space":
                             msg = " ✘ Cannot allocate staff living space"
+                            msg = colored(msg, "red", attrs=["bold"])
+                            return msg
+                        elif room.occupants >= 6 and room.rm_type == "office":
+                            msg = "✘ Office is already full"
+                            msg = colored(msg, "red", attrs=["bold"])
+                            return msg
+                        elif room.occupants >= 4 and room.rm_type == "living_space":
+                            msg ="✘ Living space is already full"
                             msg = colored(msg, "red", attrs=["bold"])
                             return msg
                         else:
